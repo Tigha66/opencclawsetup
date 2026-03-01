@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClawSetup — Pay</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .container { max-width: 480px; padding: 40px 24px; }
+    h1 { font-size: 2rem; text-align: center; margin-bottom: 8px; background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #9ca3af; margin-bottom: 32px; }
+    .plan { background: #1e1e2e; border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid #333; cursor: pointer; transition: all 0.2s; }
+    .plan:hover { border-color: #6366f1; }
+    .plan.selected { border-color: #6366f1; background: #252538; }
+    .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .plan-name { font-weight: 600; font-size: 1.1rem; }
+    .plan-price { font-size: 1.5rem; font-weight: 700; color: #6366f1; }
+    .plan-desc { color: #9ca3af; font-size: 0.9rem; }
+    .btn { width: 100%; background: #6366f1; color: #fff; padding: 16px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 24px; }
+    .btn:hover { background: #4f46e5; }
+    .btn:disabled { background: #4b5563; cursor: not-allowed; }
+    .loading { text-align: center; color: #9ca3af; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ClawSetup</h1>
+    <p class="subtitle">Choose a plan and email to pay</p>
+    <div id="plans">
+      <div class="plan selected" data-plan="personal" data-price="100">
+        <div class="plan-header">
+          <span class="plan-name">Personal Setup</span>
+          <span class="plan-price">$100</span>
+        </div>
+        <p class="plan-desc">OpenClaw on your VPS, Telegram/Discord setup, basic skills, 7 days support.</p>
+      </div>
+      <div class="plan" data-plan="business" data-price="300">
+        <div class="plan-header">
+          <span class="plan-name">Business / Cloud</span>
+          <span class="plan-price">$300</span>
+        </div>
+        <p class="plan-desc">Cloud deployment, custom integrations, automation workflows, 30 days support.</p>
+      </div>
+<div class="plan" data-plan="enterprise" data-price="500">
+        <div class="plan-header">
+          <span class="plan-name">Enterprise</span>
+          <span class="plan-price">$500<span>/mo</span></span>
+        </div>
+        <p class="plan-desc">Everything in Business, monthly maintenance, priority support, SLA guarantee.</p>
+      </div>
+    </div>
+    <button class="btn" id="checkoutBtn">Continue</button>
+    <p class="loading" id="loading" style="display: none;">Opening email...</p>
+  </div>
+  <script>
+    let selectedPlan = 'personal';
+    document.querySelectorAll('.plan').forEach(plan => {
+      plan.addEventListener('click', () => {
+        document.querySelectorAll('.plan').forEach(p => p.classList.remove('selected'));
+        plan.classList.add('selected');
+        selectedPlan = plan.dataset.plan;
+      });
+    });
+    const paymentLinks = {
+      personal: 'mailto:tigha66@gmail.com?subject=ClawSetup%20-%20Personal%20Setup&body=Hi!%20I%27m%20interested%20in%20the%20Personal%20Setup%20($100).%0A%0AMy%20name%3A%20%0AWhat%20I%20want%20to%20automate%3A%20',
+      business: 'mailto:tigha66@gmail.com?subject=ClawSetup%20-%20Business%20Setup&body=Hi!%20I%27m%20interested%20in%20the%20Business%20Setup%20($300).%0A%0AMy%20name%3A%20%0ACompany%3A%20%0AWhat%20I%20want%20to%20automate%3A%20',
+      enterprise: 'mailto:tigha66@gmail.com?subject=ClawSetup%20-%20Enterprise%20Plan&body=Hi!%20I%27m%20interested%20in%20the%20Enterprise%20Plan%20($500%2Fmo).%0A%0AMy%20name%3A%20%0ACompany%3A%20%0AContact%3A%20'
+    };
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      const url = paymentLinks[selectedPlan];
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('checkoutBtn').disabled = true;
+      window.location.href = url;
+    });
+  </script>
+</body>
+</html>
